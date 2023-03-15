@@ -1,5 +1,5 @@
  CREATE SCHEMA IF NOT EXISTS `Optica` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci ;
- CREATE TABLE IF NOT EXISTS `Optica`.`Ciudad` (
+CREATE TABLE IF NOT EXISTS `Optica`.`Ciudad` (
   `idCiudad` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(45) NOT NULL,
   PRIMARY KEY (`idCiudad`));
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `Optica`.`Clientes` (
   `direccion` VARCHAR(200) NOT NULL,
   `idCiudad` INT NULL,
   `idPais` INT NULL,
-  `Fecha de alta` DATE NOT NULL,
+  `Fechaalta` DATE NOT NULL,
   `Telefono` INT NOT NULL,
   `email` VARCHAR(200) NOT NULL,
   `Recomendado` INT NULL,
@@ -38,15 +38,16 @@ CREATE TABLE IF NOT EXISTS `Optica`.`Clientes` (
     ON UPDATE NO ACTION);
 CREATE TABLE IF NOT EXISTS `Optica`.`Proveedor` (
   `idProveedor` INT NOT NULL AUTO_INCREMENT,
+  `RazonSocial` VARCHAR(200) NOT NULL,
   `Calle` VARCHAR(100) NOT NULL,
   `Numero` INT NOT NULL,
   `Puerta` VARCHAR(45) NULL,
-  `Codigo Postal` INT NOT NULL,
+  `CodPost` INT NOT NULL,
   `Telefono` INT NOT NULL,
   `Fax` INT NULL,
   `NIF` VARCHAR(45) NOT NULL,
-  `IdCIuidad` INT NULL,
-  `IdPais` INT NULL,
+  `IdCIuidad` INT NOT NULL,
+  `IdPais` INT NOT NULL,
   PRIMARY KEY (`idProveedor`),
   INDEX `IdCIuidad_idx` (`IdCIuidad` ASC) VISIBLE,
   INDEX `idPais_idx` (`IdPais` ASC) VISIBLE,
@@ -67,11 +68,11 @@ CREATE TABLE IF NOT EXISTS `Optica`.`empleado` (
   `extension` INT NOT NULL,
   PRIMARY KEY (`idempleado`));
 CREATE TABLE IF NOT EXISTS `Optica`.`Ventas` (
-  `idVentas` INT NOT NULL AUTO_INCREMENT,
-  `Fecha venta` DATE NOT NULL,
+  `idVenta` INT NOT NULL AUTO_INCREMENT,
+  `Fechaventa` DATE NOT NULL,
   `Idempleado` INT NOT NULL,
   `idcliente` INT NOT NULL,
-  PRIMARY KEY (`idVentas`),
+  PRIMARY KEY (`idVenta`),
   INDEX `idempleado_idx` (`Idempleado` ASC) VISIBLE,
   INDEX `idcliente_idx` (`idcliente` ASC) VISIBLE,
   CONSTRAINT `FK_ventas-empleados`
@@ -93,9 +94,9 @@ CREATE TABLE IF NOT EXISTS `Optica`.`ColoresM` (
   `Nombre` VARCHAR(100) NOT NULL,
   PRIMARY KEY (`idColor`));
 CREATE TABLE IF NOT EXISTS `Optica`.`Marca gafas` (
-  `idMarca gafas` INT NOT NULL AUTO_INCREMENT,
+  `idMarcaGaf` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(200) NOT NULL,
-  PRIMARY KEY (`idMarca gafas`));
+  PRIMARY KEY (`idMarcaGaf`));
 CREATE TABLE IF NOT EXISTS `Optica`.`Cristal` (
   `idCristal` INT NOT NULL AUTO_INCREMENT,
   `Graduacion` FLOAT NOT NULL,
@@ -140,21 +141,21 @@ CREATE TABLE IF NOT EXISTS `Optica`.`Color-Montura` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 CREATE TABLE IF NOT EXISTS `Optica`.`Productos` (
-  `idProductos` INT NOT NULL AUTO_INCREMENT,
+  `idProducto` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(200) NOT NULL,
   `Precio` FLOAT NOT NULL,
   `idMarca` INT NOT NULL,
   `idCristral` INT NOT NULL,
   `idMontura` INT NOT NULL,
   `IdProveedor` INT NULL,
-  PRIMARY KEY (`idProductos`),
+  PRIMARY KEY (`idProducto`),
   INDEX `idmarca_idx` (`idMarca` ASC) VISIBLE,
   INDEX `idcristal_idx` (`idCristral` ASC) VISIBLE,
   INDEX `idmontura_idx` (`idMontura` ASC) VISIBLE,
   INDEX `idProveedor_idx` (`IdProveedor` ASC) VISIBLE,
   CONSTRAINT `FK_producto-gafas`
     FOREIGN KEY (`idMarca`)
-    REFERENCES `Optica`.`Marca gafas` (`idMarca gafas`)
+    REFERENCES `Optica`.`Marca gafas` (`idMarcaGaf`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_producto-cristal`
@@ -182,11 +183,11 @@ CREATE TABLE IF NOT EXISTS `Optica`.`DetalleVenta` (
   INDEX `idproducto_idx` (`idProducto` ASC) VISIBLE,
   CONSTRAINT `FK_Detventa-ventas`
     FOREIGN KEY (`idventa`)
-    REFERENCES `Optica`.`Ventas` (`idVentas`)
+    REFERENCES `Optica`.`Ventas` (`idVenta`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_Detventa-producto`
     FOREIGN KEY (`idProducto`)
-    REFERENCES `Optica`.`Productos` (`idProductos`)
+    REFERENCES `Optica`.`Productos` (`idProducto`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
