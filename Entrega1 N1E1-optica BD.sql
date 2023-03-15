@@ -1,15 +1,12 @@
- CREATE SCHEMA IF NOT EXISTS `Optica` DEFAULT CHARACTER SET utf8 COLLATE utf8_spanish_ci;
-
-CREATE TABLE IF NOT EXISTS `Optica`.`Ciudad` (
+ CREATE SCHEMA IF NOT EXISTS `Optica` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_spanish_ci ;
+ CREATE TABLE IF NOT EXISTS `Optica`.`Ciudad` (
   `idCiudad` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(45) NOT NULL,
-  PRIMARY KEY (`idCiudad`))
-ENGINE = InnoDB;
+  PRIMARY KEY (`idCiudad`));
 CREATE TABLE IF NOT EXISTS `Optica`.`Pais` (
   `idPais` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(200) NOT NULL,
-  PRIMARY KEY (`idPais`))
-ENGINE = InnoDB	;
+  PRIMARY KEY (`idPais`));
 CREATE TABLE IF NOT EXISTS `Optica`.`Clientes` (
   `idClientes` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(200) NOT NULL,
@@ -19,7 +16,6 @@ CREATE TABLE IF NOT EXISTS `Optica`.`Clientes` (
   `Fecha de alta` DATE NOT NULL,
   `Telefono` INT NOT NULL,
   `email` VARCHAR(200) NOT NULL,
-  `Clientescol` VARCHAR(45) NULL,
   `Recomendado` INT NULL,
   PRIMARY KEY (`idClientes`),
   INDEX `idciudad_idx` (`idCiudad` ASC) VISIBLE,
@@ -39,8 +35,7 @@ CREATE TABLE IF NOT EXISTS `Optica`.`Clientes` (
     FOREIGN KEY (`Recomendado`)
     REFERENCES `Optica`.`Clientes` (`idClientes`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
 CREATE TABLE IF NOT EXISTS `Optica`.`Proveedor` (
   `idProveedor` INT NOT NULL AUTO_INCREMENT,
   `Calle` VARCHAR(100) NOT NULL,
@@ -64,15 +59,13 @@ CREATE TABLE IF NOT EXISTS `Optica`.`Proveedor` (
     FOREIGN KEY (`IdPais`)
     REFERENCES `Optica`.`Pais` (`idPais`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
 CREATE TABLE IF NOT EXISTS `Optica`.`empleado` (
   `idempleado` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(200) NOT NULL,
   `Departamento` VARCHAR(200) NOT NULL,
   `extension` INT NOT NULL,
-  PRIMARY KEY (`idempleado`))
-ENGINE = InnoDB;
+  PRIMARY KEY (`idempleado`));
 CREATE TABLE IF NOT EXISTS `Optica`.`Ventas` (
   `idVentas` INT NOT NULL AUTO_INCREMENT,
   `Fecha venta` DATE NOT NULL,
@@ -90,33 +83,62 @@ CREATE TABLE IF NOT EXISTS `Optica`.`Ventas` (
     FOREIGN KEY (`idcliente`)
     REFERENCES `Optica`.`Clientes` (`idClientes`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-CREATE TABLE IF NOT EXISTS `Optica`.`Marca gafas` (
-  `idMarca gafas` INT NOT NULL AUTO_INCREMENT,
-  `Nombre` VARCHAR(200) NOT NULL,
-  PRIMARY KEY (`idMarca gafas`))
-ENGINE = InnoDB;
-CREATE TABLE IF NOT EXISTS `Optica`.`Cristal` (
-  `idCristal` INT NOT NULL AUTO_INCREMENT,
-  `Graduacion` FLOAT NOT NULL,
-  PRIMARY KEY (`idCristal`))
-ENGINE = InnoDB;
-CREATE TABLE IF NOT EXISTS `Optica`.`Monturas` (
-  `idMonturas` INT NOT NULL AUTO_INCREMENT,
-  `Nombre` VARCHAR(200) NOT NULL,
-  PRIMARY KEY (`idMonturas`))
-ENGINE = InnoDB;
+    ON UPDATE NO ACTION);
 CREATE TABLE IF NOT EXISTS `Optica`.`ColoresC` (
   `idColoresC` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(200) NOT NULL,
-  PRIMARY KEY (`idColoresC`))
-ENGINE = InnoDB;
+  PRIMARY KEY (`idColoresC`));
 CREATE TABLE IF NOT EXISTS `Optica`.`ColoresM` (
   `idColor` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(100) NOT NULL,
-  PRIMARY KEY (`idColor`))
-ENGINE = InnoDB;
+  PRIMARY KEY (`idColor`));
+CREATE TABLE IF NOT EXISTS `Optica`.`Marca gafas` (
+  `idMarca gafas` INT NOT NULL AUTO_INCREMENT,
+  `Nombre` VARCHAR(200) NOT NULL,
+  PRIMARY KEY (`idMarca gafas`));
+CREATE TABLE IF NOT EXISTS `Optica`.`Cristal` (
+  `idCristal` INT NOT NULL AUTO_INCREMENT,
+  `Graduacion` FLOAT NOT NULL,
+  `Nombre` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`idCristal`));
+CREATE TABLE IF NOT EXISTS `Optica`.`Monturas` (
+  `idMonturas` INT NOT NULL AUTO_INCREMENT,
+  `Nombre` VARCHAR(200) NOT NULL,
+  PRIMARY KEY (`idMonturas`));
+CREATE TABLE IF NOT EXISTS `Optica`.`Cristal-Color` (
+  `idCriCol` INT NOT NULL AUTO_INCREMENT,
+  `idcristal` INT NULL,
+  `idColor` INT NULL,
+  PRIMARY KEY (`idCriCol`),
+  INDEX `idcristal_idx` (`idcristal` ASC) VISIBLE,
+  INDEX `idcolor_idx` (`idColor` ASC) VISIBLE,
+  CONSTRAINT `FK_cricol-colorc`
+    FOREIGN KEY (`idcristal`)
+    REFERENCES `Optica`.`Cristal` (`idCristal`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `FK_colmon-colorem`
+    FOREIGN KEY (`idColor`)
+    REFERENCES `Optica`.`ColoresC` (`idColoresC`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
+CREATE TABLE IF NOT EXISTS `Optica`.`Color-Montura` (
+  `idColMon` INT NOT NULL AUTO_INCREMENT,
+  `IdMontura` INT NULL,
+  `IdColor` INT NULL,
+  PRIMARY KEY (`idColMon`),
+  INDEX `idmontura_idx` (`IdMontura` ASC) VISIBLE,
+  INDEX `idcolot_idx` (`IdColor` ASC) VISIBLE,
+  CONSTRAINT `idmontura`
+    FOREIGN KEY (`IdMontura`)
+    REFERENCES `Optica`.`Monturas` (`idMonturas`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION,
+  CONSTRAINT `idcolot`
+    FOREIGN KEY (`IdColor`)
+    REFERENCES `Optica`.`ColoresM` (`idColor`)
+    ON DELETE NO ACTION
+    ON UPDATE NO ACTION);
 CREATE TABLE IF NOT EXISTS `Optica`.`Productos` (
   `idProductos` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(200) NOT NULL,
@@ -149,51 +171,22 @@ CREATE TABLE IF NOT EXISTS `Optica`.`Productos` (
     FOREIGN KEY (`IdProveedor`)
     REFERENCES `Optica`.`Proveedor` (`idProveedor`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-CREATE TABLE IF NOT EXISTS `Optica`.`Cristal-Color` (
-  `idCriCol` INT NOT NULL,
-  `idcristal` INT NULL,
-  `idColor` INT NULL,
-  PRIMARY KEY (`idCriCol`),
-  INDEX `idcristal_idx` (`idcristal` ASC) VISIBLE,
-  INDEX `idcolor_idx` (`idColor` ASC) VISIBLE,
-  CONSTRAINT `FK_cricol-colorc`
-    FOREIGN KEY (`idcristal`)
-    REFERENCES `Optica`.`Cristal` (`idCristal`)
+    ON UPDATE NO ACTION);
+CREATE TABLE IF NOT EXISTS `Optica`.`DetalleVenta` (
+  `idDetalleVenta` INT NOT NULL AUTO_INCREMENT,
+  `idventa` INT NOT NULL,
+  `idProducto` INT NOT NULL,
+  `Cantidad` FLOAT NOT NULL,
+  PRIMARY KEY (`idDetalleVenta`),
+  INDEX `idventa_idx` (`idventa` ASC) VISIBLE,
+  INDEX `idproducto_idx` (`idProducto` ASC) VISIBLE,
+  CONSTRAINT `FK_Detventa-ventas`
+    FOREIGN KEY (`idventa`)
+    REFERENCES `Optica`.`Ventas` (`idVentas`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION,
-  CONSTRAINT `FK_colmon-colorem`
-    FOREIGN KEY (`idColor`)
-    REFERENCES `Optica`.`ColoresC` (`idColoresC`)
+  CONSTRAINT `FK_Detventa-producto`
+    FOREIGN KEY (`idProducto`)
+    REFERENCES `Optica`.`Productos` (`idProductos`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-CREATE TABLE IF NOT EXISTS `Optica`.`Color-Montura` (
-  `idColMon` INT NOT NULL AUTO_INCREMENT,
-  `IdMontura` INT NULL,
-  `IdColor` INT NULL,
-  PRIMARY KEY (`idColMon`),
-  INDEX `idmontura_idx` (`IdMontura` ASC) VISIBLE,
-  INDEX `idcolot_idx` (`IdColor` ASC) VISIBLE,
-  CONSTRAINT `idmontura`
-    FOREIGN KEY (`IdMontura`)
-    REFERENCES `Optica`.`Monturas` (`idMonturas`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `idcolot`
-    FOREIGN KEY (`IdColor`)
-    REFERENCES `Optica`.`ColoresM` (`idColor`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
-
-
-
-
-
-
-
-
+    ON UPDATE NO ACTION);
