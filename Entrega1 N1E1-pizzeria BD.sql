@@ -84,13 +84,13 @@ CREATE TABLE IF NOT EXISTS `Pizzeria`.`Tienda` (
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 CREATE TABLE IF NOT EXISTS `Pizzeria`.`Empleados` (
-  `idempleados` INT NOT NULL AUTO_INCREMENT,
+  `idempleado` INT NOT NULL AUTO_INCREMENT,
   `idTienda` INT NOT NULL,
   `Nombre` VARCHAR(100) NOT NULL,
   `Apellido` VARCHAR(100) NOT NULL,
   `NIF` VARCHAR(100) NOT NULL,
   `Telefono` INT NOT NULL,
-  PRIMARY KEY (`idempleados`),
+  PRIMARY KEY (`idempleado`),
   INDEX `idtienda_idx` (`idTienda` ASC) VISIBLE,
   CONSTRAINT `FK_empleado-tienda`
     FOREIGN KEY (`idTienda`)
