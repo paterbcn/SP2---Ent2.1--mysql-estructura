@@ -68,7 +68,91 @@ join alumno_se_matricula_asignatura al
 join curso_escolar cu
 	on al.id_curso_escolar = cu.id
 where cu.anyo_inicio = 2018
-group by cu.anyo_inicio
+group by pe.apellido1;
+-- Retorna un llistat amb els noms de tots els professors/es i els departaments que tenen vinculats. 
+-- El llistat també ha de mostrar aquells professors/es que no tenen cap departament associat. 
+-- El llistat ha de retornar quatre columnes, nom del departament, primer cognom, segon cognom i nom del professor/a. 
+-- El resultat estarà ordenat alfabèticament de menor a major pel nom del departament, cognoms i el nom.
+select de.nombre as departamento  , pe.apellido1 , pe.apellido2, pe.nombre
+from persona pe
+left join profesor pr
+	on pe.id = pr.id_profesor
+left join departamento de
+	on pr.id_departamento = de.id
+where pe.tipo ="profesor"
+order by departamento asc , pe.apellido1 asc , pe.apellido2 asc , pe.nombre asc ;
+-- Retorna un llistat amb els professors/es que no estan associats a un departament.
+select de.nombre as departamento  , pe.apellido1 , pe.apellido2, pe.nombre
+from persona pe
+left join profesor pr
+	on pe.id = pr.id_profesor
+left join departamento de
+	on pr.id_departamento = de.id
+where pe.tipo ="profesor" and de.nombre is null
+order by departamento asc , pe.apellido1 asc , pe.apellido2 asc , pe.nombre asc ;
+-- Retorna un llistat amb els departaments que no tenen professors/es associats.
+select de.nombre
+from departamento de
+left join profesor pr
+	on de.id= pr.id_departamento
+where pr.id_departamento is null;
+-- Retorna un llistat amb els professors/es que no imparteixen cap assignatura.
+select concat(pe.nombre , " " , pe.apellido1 , " " , pe.apellido2) as Profesor , ag.nombre as asignatura
+from persona pe
+left join profesor pr
+	on pe.id = pr.id_profesor
+left join asignatura ag
+	on pr.id_profesor = ag.id_profesor
+where pe.tipo ="profesor" and ag.id_profesor is null;
+-- Retorna un llistat amb tots els departaments que no han impartit assignatures en cap curs escolar.
+select de.nombre as departamento , ag.nombre as asignatura
+from departamento de
+left join profesor pr
+	on de.id= pr.id_departamento
+left join asignatura ag
+	on pr.id_profesor = ag.id_profesor
+where ag.id is null;
+-- Retorna el nombre total d'alumnes que hi ha.
+select count(*) as "numero de alumnos"
+from persona
+where tipo ="alumno";
+-- Calcula quants alumnes van néixer en 1999.
+select count(*) as "numero de alumnos"
+from persona
+where tipo ="alumno" and year(fecha_nacimiento)="1999";
+-- Calcula quants professors/es hi ha en cada departament. El resultat només ha de mostrar dues columnes, 
+-- una amb el nom del departament i una altra amb el nombre de professors/es que hi ha en aquest departament. 
+-- El resultat només ha d'incloure els departaments que tenen professors/es associats i haurà d'estar ordenat de major 
+-- a menor pel nombre de professors/es.
+select de.nombre as departemento , count(*) as "numero de profesores"
+from departamento de
+join profesor pr
+	ON de.id = pr.id_departamento
+group by de.nombre;
+
+-- Retorna un llistat amb tots els departaments i el nombre de professors/es que hi ha en cadascun d'ells. Tingui en compte que 
+-- poden existir departaments que no tenen professors/es associats. Aquests departaments també han d'aparèixer en el llistat.
+
+select de.nombre as departemento , count(pr.id_profesor) as "numero profesores"
+from departamento de
+left join profesor pr
+	ON de.id = pr.id_departamento
+group by de.nombre;
+
+-- Retorna un llistat amb el nom de tots els graus existents en la base de dades i el nombre d'assignatures que té cadascun. 
+-- Tingues en compte que poden existir graus que no tenen assignatures associades. Aquests graus també han d'aparèixer en el llistat. 
+-- El resultat haurà d'estar ordenat de major a menor pel nombre d'assignatures.
+select gr.nombre as grado , count(ag.id) as "numero de asignaturas" 
+from grado gr
+left join asignatura ag
+	on gr.id = ag.id_grado
+group by gr.id
+
+
+
+
+
+
 
 
 
