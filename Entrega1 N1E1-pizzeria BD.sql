@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS `Pizzeria`.`Productos` (
   `Nombre` VARCHAR(200) NOT NULL,
   `Descripcion` MEDIUMTEXT NOT NULL,
   `Precio` FLOAT NOT NULL,
-  `Imagen` BLOB NOT NULL,
+  `Imagen` BLOB NULL,
   `IdCategoria` INT NOT NULL,
   `idsubCatePro` INT NOT NULL,
   PRIMARY KEY (`idProducto`),
@@ -34,7 +34,8 @@ CREATE TABLE IF NOT EXISTS `Pizzeria`.`Productos` (
     FOREIGN KEY (`idsubCatePro`)
     REFERENCES `Pizzeria`.`subCatePro` (`idsubCatePro`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Pizzeria`.`Localidad` (
   `idLocalidad` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(200) NOT NULL,
@@ -102,21 +103,23 @@ CREATE TABLE IF NOT EXISTS `Pizzeria`.`Cocineros` (
   `IdEmpleado` INT NOT NULL,
   PRIMARY KEY (`idCocinero`),
   INDEX `idempleado_idx` (`IdEmpleado` ASC) VISIBLE,
-  CONSTRAINT `idempleado`
+  CONSTRAINT `FK-cocinero-empleado`
     FOREIGN KEY (`IdEmpleado`)
-    REFERENCES `Pizzeria`.`Empleados` (`idempleados`)
+    REFERENCES `Pizzeria`.`Empleados` (`idempleado`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Pizzeria`.`Repartidores` (
   `idRepartidores` INT NOT NULL AUTO_INCREMENT,
   `Idempleado` INT NOT NULL,
-  PRIMARY KEY (`idRepartidores`, `Idempleado`),
+  PRIMARY KEY (`idRepartidores`),
   INDEX `idempleado_idx` (`Idempleado` ASC) VISIBLE,
   CONSTRAINT `FK_repartidores-empleados`
     FOREIGN KEY (`Idempleado`)
-    REFERENCES `Pizzeria`.`Empleados` (`idempleados`)
+    REFERENCES `Pizzeria`.`Empleados` (`idempleado`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 CREATE TABLE IF NOT EXISTS `Pizzeria`.`Comanda` (
   `idComanda` INT NOT NULL AUTO_INCREMENT,
   `diahora` DATETIME NOT NULL DEFAULT NOW(),
@@ -141,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `Pizzeria`.`Comanda` (
     ON UPDATE NO ACTION,
   CONSTRAINT `FK_comanda-empleado`
     FOREIGN KEY (`Idempleado`)
-    REFERENCES `Pizzeria`.`Empleados` (`idempleados`)
+    REFERENCES `Pizzeria`.`Empleados` (`idempleado`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
 CREATE TABLE IF NOT EXISTS `Pizzeria`.`DetalleComanda` (
@@ -180,8 +183,76 @@ CREATE TABLE IF NOT EXISTS `Pizzeria`.`DetalleDeEntrega` (
     FOREIGN KEY (`IdRepartidor`)
     REFERENCES `Pizzeria`.`Repartidores` (`idRepartidores`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION);
+    ON UPDATE NO ACTION)
+ENGINE = InnoDB;
 
 
 
 
+
+
+INSERT INTO `pizzeria`.`provincias` (`Nombre`) VALUES ('barcelona');
+INSERT INTO `pizzeria`.`provincias` (`Nombre`) VALUES ('tarragona');
+INSERT INTO `pizzeria`.`provincias` (`Nombre`) VALUES ('Lleida');
+
+INSERT INTO `pizzeria`.`localidad` (`Nombre`) VALUES ('Loc1');
+INSERT INTO `pizzeria`.`localidad` (`Nombre`) VALUES ('loc2');
+INSERT INTO `pizzeria`.`localidad` (`Nombre`) VALUES ('loc3');
+
+INSERT INTO `pizzeria`.`catproducto` (`Nombre`) VALUES ('Hamburguesas');
+INSERT INTO `pizzeria`.`catproducto` (`Nombre`) VALUES ('pizzas');
+INSERT INTO `pizzeria`.`catproducto` (`Nombre`) VALUES ('bebidas');
+
+INSERT INTO `pizzeria`.`subcatepro` (`Nombre`, `idCat`) VALUES ('Margarita', '2');
+INSERT INTO `pizzeria`.`subcatepro` (`Nombre`, `idCat`) VALUES ('tropicana', '2');
+INSERT INTO `pizzeria`.`subcatepro` (`Nombre`, `idCat`) VALUES ('real', '2');
+INSERT INTO `pizzeria`.`subcatepro` (`Nombre`, `idCat`) VALUES ('pollo', '1');
+INSERT INTO `pizzeria`.`subcatepro` (`Nombre`, `idCat`) VALUES ('ternera', '1');
+INSERT INTO `pizzeria`.`subcatepro` (`Nombre`, `idCat`) VALUES ('refresco', '3');
+INSERT INTO `pizzeria`.`subcatepro` (`Nombre`, `idCat`) VALUES ('alcohol', '3');
+
+INSERT INTO `pizzeria`.`productos` (`Nombre`, `Descripcion`, `Precio`, `IdCategoria`, `idsubCatePro`) VALUES ('Producto1', 'descricion', '10', '1', '1');
+INSERT INTO `pizzeria`.`productos` (`Nombre`, `Descripcion`, `Precio`, `IdCategoria`, `idsubCatePro`) VALUES ('prodcuto2', 'descripcion', '3', '2', '1');
+INSERT INTO `pizzeria`.`productos` (`Nombre`, `Descripcion`, `Precio`, `IdCategoria`, `idsubCatePro`) VALUES ('producto3', 'descripcion', '1', '3', '2');
+
+INSERT INTO `pizzeria`.`tienda` (`Nombre`, `Direccion`, `idLocalidad`, `idprovincia`) VALUES ('tienda1', 'calle 1', '1', '1');
+INSERT INTO `pizzeria`.`tienda` (`Nombre`, `Direccion`, `idLocalidad`, `idprovincia`) VALUES ('tienda2', 'calle 2', '2', '2');
+INSERT INTO `pizzeria`.`tienda` (`Nombre`, `Direccion`, `idLocalidad`, `idprovincia`) VALUES ('tienda3', 'calle3', '3', '3');
+
+INSERT INTO `pizzeria`.`empleados` (`idTienda`, `Nombre`, `Apellido`, `NIF`, `Telefono`) VALUES ('1', 'Nemp1', 'Apemp1', '465515x', '666666');
+INSERT INTO `pizzeria`.`empleados` (`idTienda`, `Nombre`, `Apellido`, `NIF`, `Telefono`) VALUES ('1', 'Nemp2', 'Apemp2', '645464x', '888888');
+INSERT INTO `pizzeria`.`empleados` (`idTienda`, `Nombre`, `Apellido`, `NIF`, `Telefono`) VALUES ('2', 'Nemp3', 'Apemp3', '4545454s', '777777');
+INSERT INTO `pizzeria`.`empleados` (`idTienda`, `Nombre`, `Apellido`, `NIF`, `Telefono`) VALUES ('2', 'Nemp4', 'Apemp4', '65656s', '999989');
+INSERT INTO `pizzeria`.`empleados` (`idTienda`, `Nombre`, `Apellido`, `NIF`, `Telefono`) VALUES ('3', 'Nemp5', 'Apemp5', '87878a', '1212312');
+INSERT INTO `pizzeria`.`empleados` (`idTienda`, `Nombre`, `Apellido`, `NIF`, `Telefono`) VALUES ('3', 'Nemp6', 'Apemp6', '456454q', '45645');
+
+INSERT INTO `pizzeria`.`cocineros` (`IdEmpleado`) VALUES ('1');
+INSERT INTO `pizzeria`.`cocineros` (`IdEmpleado`) VALUES ('3');
+INSERT INTO `pizzeria`.`cocineros` (`IdEmpleado`) VALUES ('5');
+
+INSERT INTO `pizzeria`.`repartidores` (`Idempleado`) VALUES ('2');
+INSERT INTO `pizzeria`.`repartidores` (`Idempleado`) VALUES ('4');
+INSERT INTO `pizzeria`.`repartidores` (`Idempleado`) VALUES ('6');
+
+INSERT INTO `pizzeria`.`clientes` (`Nombre`, `Apellido`, `Direccion`, `IdLocalidad`, `idProvincia`, `Telefono`) VALUES ('Na1', 'Ap1', 'calle 1 , 100', '1', '2', '666666');
+INSERT INTO `pizzeria`.`clientes` (`Nombre`, `Apellido`, `Direccion`, `IdLocalidad`, `idProvincia`, `Telefono`) VALUES ('Na2', 'Ap2', 'calle 2 , 100', '2', '1', '66666');
+INSERT INTO `pizzeria`.`clientes` (`Nombre`, `Apellido`, `Direccion`, `IdLocalidad`, `idProvincia`, `Telefono`) VALUES ('Na3', 'Ap3', 'calle 3 , 100', '3', '2', '999999');
+
+INSERT INTO `pizzeria`.`comanda` (`diahora`, `idcliente`, `Idtienda`, `Entrega`, `Ptotal`, `Idempleado`) VALUES ('2022-01-01 13:20:00', '1', '1', '0', '10', '1');
+INSERT INTO `pizzeria`.`comanda` (`diahora`, `idcliente`, `Idtienda`, `Entrega`, `Ptotal`, `Idempleado`) VALUES ('2022-01-01 14:20:00', '2', '2', '1', '30', '3');
+INSERT INTO `pizzeria`.`comanda` (`diahora`, `idcliente`, `Idtienda`, `Entrega`, `Ptotal`, `Idempleado`) VALUES ('2022-01-02 14:20:00', '3', '3', '1', '30', '5');
+
+INSERT INTO `pizzeria`.`comanda` (`diahora`, `idcliente`, `Idtienda`, `Entrega`, `Ptotal`, `Idempleado`) VALUES ('2022-01-01 13:50:00', '1', '1', '0', '10', '1');
+INSERT INTO `pizzeria`.`comanda` (`diahora`, `idcliente`, `Idtienda`, `Entrega`, `Ptotal`, `Idempleado`) VALUES ('2022-01-01 14:50:00', '2', '2', '1', '30', '3');
+INSERT INTO `pizzeria`.`comanda` (`diahora`, `idcliente`, `Idtienda`, `Entrega`, `Ptotal`, `Idempleado`) VALUES ('2022-01-02 14:50:00', '3', '3', '1', '20', '5');
+
+INSERT INTO `pizzeria`.`detallecomanda` (`Idcomanda`, `idProducto`, `Cantidad`) VALUES ('1', '1', '2');
+INSERT INTO `pizzeria`.`detallecomanda` (`Idcomanda`, `idProducto`, `Cantidad`) VALUES ('1', '2', '2');
+INSERT INTO `pizzeria`.`detallecomanda` (`Idcomanda`, `idProducto`, `Cantidad`) VALUES ('2', '2', '1');
+INSERT INTO `pizzeria`.`detallecomanda` (`Idcomanda`, `idProducto`, `Cantidad`) VALUES ('2', '3', '1');
+INSERT INTO `pizzeria`.`detallecomanda` (`Idcomanda`, `idProducto`, `Cantidad`) VALUES ('3', '1', '1');
+INSERT INTO `pizzeria`.`detallecomanda` (`Idcomanda`, `idProducto`, `Cantidad`) VALUES ('3', '2', '2');
+INSERT INTO `pizzeria`.`detallecomanda` (`Idcomanda`, `idProducto`, `Cantidad`) VALUES ('3', '3', '1');
+
+INSERT INTO `pizzeria`.`detalledeentrega` (`idComanda`, `IdRepartidor`, `DiaHora`, `Informacion`) VALUES ('2', '1', '2022-01-01 15:50:00', 'AAAAAAAAA');
+INSERT INTO `pizzeria`.`detalledeentrega` (`idComanda`, `IdRepartidor`, `DiaHora`, `Informacion`) VALUES ('3', '2', '2022-01-02 15:50:00', 'BBBBBBBBB');

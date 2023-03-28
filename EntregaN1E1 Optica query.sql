@@ -16,7 +16,7 @@ join detalleventa d
 	on v.idventa = d.idventa
 join productos p
 	on d.idproducto = p.idproducto
-where year(v.fechaventa) = "2022";
+where year(v.fechaventa) = "2023";
 
 -- Llista els diferents proveïdors que han subministrat ulleres venudes amb èxit per l'òptica.
 

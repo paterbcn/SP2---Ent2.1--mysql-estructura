@@ -191,3 +191,78 @@ CREATE TABLE IF NOT EXISTS `Optica`.`DetalleVenta` (
     REFERENCES `Optica`.`Productos` (`idProducto`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
+
+INSERT INTO `optica`.`ciudad` (`Nombre`) VALUES ('barcelona');
+INSERT INTO `optica`.`ciudad` (`Nombre`) VALUES ('madrid');
+INSERT INTO `optica`.`ciudad` (`Nombre`) VALUES ('sevilla');
+
+INSERT INTO `optica`.`pais` (`Nombre`) VALUES ('españa');
+INSERT INTO `optica`.`pais` (`Nombre`) VALUES ('francia');
+INSERT INTO `optica`.`pais` (`Nombre`) VALUES ('portugal');
+
+INSERT INTO `optica`.`empleado` (`Nombre`, `Departamento`, `extension`) VALUES ('empleado1', 'ventas', '1');
+INSERT INTO `optica`.`empleado` (`Nombre`, `Departamento`, `extension`) VALUES ('empleado2', 'compras', '2');
+INSERT INTO `optica`.`empleado` (`Nombre`, `Departamento`, `extension`) VALUES ('empleado3', 'ventas', '3');
+
+INSERT INTO `optica`.`marca gafas` (`Nombre`) VALUES ('marca1');
+INSERT INTO `optica`.`marca gafas` (`Nombre`) VALUES ('marca2');
+INSERT INTO `optica`.`marca gafas` (`Nombre`) VALUES ('marca3');
+
+INSERT INTO `optica`.`coloresc` (`Nombre`) VALUES ('rojo');
+INSERT INTO `optica`.`coloresc` (`Nombre`) VALUES ('verde');
+INSERT INTO `optica`.`coloresc` (`Nombre`) VALUES ('amarillo');
+
+INSERT INTO `optica`.`coloresm` (`Nombre`) VALUES ('plata');
+INSERT INTO `optica`.`coloresm` (`Nombre`) VALUES ('oro');
+INSERT INTO `optica`.`coloresm` (`Nombre`) VALUES ('cobre');
+
+INSERT INTO `optica`.`cristal` (`Graduacion`, `Nombre`) VALUES ('5.0', 'cristal1');
+INSERT INTO `optica`.`cristal` (`Graduacion`, `Nombre`) VALUES ('9.2', 'cristal2');
+INSERT INTO `optica`.`cristal` (`Graduacion`, `Nombre`) VALUES ('8.1', 'cristal3');
+
+
+INSERT INTO `optica`.`monturas` (`Nombre`) VALUES ('metalica');
+INSERT INTO `optica`.`monturas` (`Nombre`) VALUES ('pasta');
+INSERT INTO `optica`.`monturas` (`Nombre`) VALUES ('flotante');
+
+INSERT INTO `optica`.`cristal-color` (`idcristal`, `idColor`) VALUES ('1', '1');
+INSERT INTO `optica`.`cristal-color` (`idcristal`, `idColor`) VALUES ('1', '2');
+INSERT INTO `optica`.`cristal-color` (`idcristal`, `idColor`) VALUES ('2', '3');
+INSERT INTO `optica`.`cristal-color` (`idcristal`, `idColor`) VALUES ('2', '1');
+INSERT INTO `optica`.`cristal-color` (`idcristal`, `idColor`) VALUES ('3', '3');
+
+INSERT INTO `optica`.`color-montura` (`IdMontura`, `IdColor`) VALUES ('1', '2');
+INSERT INTO `optica`.`color-montura` (`IdMontura`, `IdColor`) VALUES ('1', '3');
+INSERT INTO `optica`.`color-montura` (`IdMontura`, `IdColor`) VALUES ('2', '2');
+INSERT INTO `optica`.`color-montura` (`IdMontura`, `IdColor`) VALUES ('2', '3');
+INSERT INTO `optica`.`color-montura` (`IdMontura`, `IdColor`) VALUES ('3', '1');
+INSERT INTO `optica`.`color-montura` (`IdMontura`, `IdColor`) VALUES ('3', '2');
+INSERT INTO `optica`.`color-montura` (`IdMontura`, `IdColor`) VALUES ('3', '3');
+
+INSERT INTO `optica`.`clientes` (`Nombre`, `direccion`, `idCiudad`, `idPais`, `Fechaalta`, `Telefono`, `email`, `Recomendado`) VALUES ('cliente1', 'calle 1 , 18', '1', '1', '2023/01/01', '66666666', 'cus@cu.com', '2');
+INSERT INTO `optica`.`clientes` (`Nombre`, `direccion`, `idCiudad`, `idPais`, `Fechaalta`, `Telefono`, `email`, `Recomendado`) VALUES ('cliente2', 'calle 3 , 20', '2', '1', '2022/01/02', '9999999', 'cis2@email.com', '1');
+INSERT INTO `optica`.`clientes` (`Nombre`, `direccion`, `idCiudad`, `idPais`, `Fechaalta`, `Telefono`, `email`, `Recomendado`) VALUES ('cliente2', 'calle 4 , 20', '3', '1', '2022/05/05', '7777777', 'cis3@email.com', '1');
+
+INSERT INTO `optica`.`clientes` (`Nombre`, `direccion`, `idCiudad`, `idPais`, `Fechaalta`, `Telefono`, `email`) VALUES ('Cliente1', 'Calle 1 ,181', '1', '1', '2022-01-01', '6666666', 'aa@email.com');
+INSERT INTO `optica`.`clientes` (`Nombre`, `direccion`, `idCiudad`, `idPais`, `Fechaalta`, `Telefono`, `email`, `Recomendado`) VALUES ('cliente2', 'calle 2, 100', '2', '1', '2022-01-02', '9999999', 'aa@email.com', '1');
+INSERT INTO `optica`.`clientes` (`Nombre`, `direccion`, `idCiudad`, `idPais`, `Fechaalta`, `Telefono`, `email`, `Recomendado`) VALUES ('cliente3', 'calle 3, 200', '3', '1', '2023-01-01', '7777777', 'bb@email.com', '2');
+
+INSERT INTO `optica`.`proveedor` (`RazonSocial`, `Calle`, `Numero`, `Puerta`, `CodPost`, `Telefono`, `Fax`, `NIF`, `IdCIuidad`, `IdPais`) VALUES ('proveedor1', 'calle1', '99', '1', '08001', '999999', '555555', '54545x', '2', '1');
+INSERT INTO `optica`.`proveedor` (`RazonSocial`, `Calle`, `Numero`, `Puerta`, `CodPost`, `Telefono`, `Fax`, `NIF`, `IdCIuidad`, `IdPais`) VALUES ('proveedor2', 'calle2', '100', '2', '08002', '666666', '444444', '54545c', '3', '1');
+INSERT INTO `optica`.`proveedor` (`RazonSocial`, `Calle`, `Numero`, `Puerta`, `CodPost`, `Telefono`, `Fax`, `NIF`, `IdCIuidad`, `IdPais`) VALUES ('proveedor3', 'calle4', '22', '3', '08003', '77777', '45454', '54585x', '1', '1');
+
+INSERT INTO `optica`.`productos` (`Nombre`, `Precio`, `idMarca`, `idCristral`, `idMontura`, `IdProveedor`) VALUES ('Producto1', '10', '1', '1', '1', '1');
+INSERT INTO `optica`.`productos` (`Nombre`, `Precio`, `idMarca`, `idCristral`, `idMontura`, `IdProveedor`) VALUES ('producto2', '5', '2', '2', '2', '2');
+INSERT INTO `optica`.`productos` (`Nombre`, `Precio`, `idMarca`, `idCristral`, `idMontura`, `IdProveedor`) VALUES ('producto3', '3', '3', '3', '3', '3');
+
+INSERT INTO `optica`.`ventas` (`Fechaventa`, `Idempleado`, `idcliente`) VALUES ('2023-01-01', '1', '1');
+INSERT INTO `optica`.`ventas` (`Fechaventa`, `Idempleado`, `idcliente`) VALUES ('2023-01-02', '2', '2');
+INSERT INTO `optica`.`ventas` (`Fechaventa`, `Idempleado`, `idcliente`) VALUES ('2023-01-03', '3', '3');
+
+INSERT INTO `optica`.`detalleventa` (`idventa`, `idProducto`, `Cantidad`) VALUES ('1', '1', '10');
+INSERT INTO `optica`.`detalleventa` (`idventa`, `idProducto`, `Cantidad`) VALUES ('1', '2', '5');
+INSERT INTO `optica`.`detalleventa` (`idventa`, `idProducto`, `Cantidad`) VALUES ('2', '3', '5');
+INSERT INTO `optica`.`detalleventa` (`idventa`, `idProducto`, `Cantidad`) VALUES ('2', '1', '3');
+INSERT INTO `optica`.`detalleventa` (`idventa`, `idProducto`, `Cantidad`) VALUES ('3', '1', '20');
+INSERT INTO `optica`.`detalleventa` (`idventa`, `idProducto`, `Cantidad`) VALUES ('3', '2', '5');
+INSERT INTO `optica`.`detalleventa` (`idventa`, `idProducto`, `Cantidad`) VALUES ('1', '3', '2');
