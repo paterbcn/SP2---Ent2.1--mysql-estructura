@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS `YoutubeClone`.`users` (
   `Email` VARCHAR(200) NOT NULL,
   `Password` VARCHAR(45) NOT NULL,
   `Birthdate` DATE NOT NULL,
-  `Sex` ENUM("m", "f") NOT NULL,
+  `Gender` ENUM("m", "f") NOT NULL,
   `Id_country` INT NOT NULL,
   `Postal_code` INT NOT NULL,
   PRIMARY KEY (`Id_user`),
@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `YoutubeClone`.`users` (
     REFERENCES `YoutubeClone`.`Countries` (`Id_countries`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION)
-ENGINE = InnoDB;
+ENGINE = InnoDB
 CREATE TABLE IF NOT EXISTS `YoutubeClone`.`Videos` (
   `Id_Videos` INT NOT NULL AUTO_INCREMENT,
   `Title` VARCHAR(150) NOT NULL,
