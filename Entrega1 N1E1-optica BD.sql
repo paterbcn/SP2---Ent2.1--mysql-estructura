@@ -140,7 +140,7 @@ CREATE TABLE IF NOT EXISTS `Optica`.`Color-Montura` (
     REFERENCES `Optica`.`ColoresM` (`idColor`)
     ON DELETE NO ACTION
     ON UPDATE NO ACTION);
-CREATE TABLE IF NOT EXISTS `Optica`.`Productos` (
+CREATE TABLE IF NOT EXISTS `Optica`.`Productos`  (
   `idProducto` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(200) NOT NULL,
   `Precio` FLOAT NOT NULL,
